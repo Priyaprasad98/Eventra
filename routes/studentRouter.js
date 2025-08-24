@@ -10,4 +10,6 @@ const studentController = require('../controllers/studentController');
 
 studentRouter.post('/register/:eventId', studentController.postRegistrationForm);
 
+//studentRouter.post('/feedback/:eventId', studentController.getfeedback);
+
 module.exports = studentRouter;

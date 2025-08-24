@@ -1,0 +1,70 @@
+<%- include('../partials/head') %>
+</head>
+<body class="bg-gray-100">
+  <%- include('../partials/nav') %>
+
+  <section class="flex justify-center items-center pt-10 px-4">
+    <div class="bg-white rounded-3xl shadow-xl max-w-lg w-full p-8 sm:p-10 mt-24">
+      <h2 class="text-3xl font-bold text-purple-700 mb-6 text-center">Event Feedback</h2>
+
+      <% if (query.status === 'success') { %>
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6 text-center">
+          Feedback submitted successfully!
+        </div>
+      <% } else if (query.status === 'error') { %>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 text-center">
+          Something went wrong. Please try again.
+        </div>
+      <% } %>
+
+      <form action="/feedback/<%= eventId %>" method="POST" class="space-y-6">
+        <!-- Name -->
+        <div>
+          <label for="studentName" class="block text-gray-700 font-medium mb-2">Full Name</label>
+          <input type="text" name="studentName" id="studentName" 
+                 class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                 value="<%= studentName %>" readonly>
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label for="studentEmail" class="block text-gray-700 font-medium mb-2">Email</label>
+          <input type="email" name="studentEmail" id="studentEmail" 
+                 class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                 value="<%= studentEmail %>" readonly>
+        </div>
+
+        <!-- Rating -->
+        <div>
+          <label for="rating" class="block text-gray-700 font-medium mb-2">Rating (1-5)</label>
+          <select name="rating" id="rating" 
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+            <option value="" disabled selected>Select rating</option>
+            <option value="1">1 - Poor</option>
+            <option value="2">2 - Fair</option>
+            <option value="3">3 - Good</option>
+            <option value="4">4 - Very Good</option>
+            <option value="5">5 - Excellent</option>
+          </select>
+        </div>
+
+        <!-- Feedback Text -->
+        <div>
+          <label for="feedback" class="block text-gray-700 font-medium mb-2">Your Feedback</label>
+          <textarea name="feedback" id="feedback" rows="5"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    placeholder="Write your feedback here..." required></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+          <button type="submit" 
+                  class="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-3 rounded-lg shadow-lg transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+            Submit Feedback
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+</body>
+</html>
