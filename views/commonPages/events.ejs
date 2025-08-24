@@ -1,0 +1,155 @@
+<%- include('../partials/head') %>
+</head>
+<body class="bg-gray-50">
+  <%- include('../partials/nav') %>
+
+  <section class="py-20 max-w-7xl mx-auto px-4">
+
+    <!-- Upcoming Events -->
+    <% if (upcoming && upcoming.length > 0) { %>
+        <div class="mt-10"> 
+      <h3 class="text-3xl font-bold text-purple-900 mb-6">🚀 Upcoming Events</h3></div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <% upcoming.forEach(event => { %>
+          <div class="group bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all border border-purple-100">
+            <div class="h-56 overflow-hidden relative">
+              <img src="../../uploads/img/<%= event.img %>" 
+                   class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                   alt="<%= event.name %>" />
+              <span class="absolute top-2 right-2 bg-purple-600 text-white text-xs px-2 py-1 rounded-full font-semibold">Upcoming</span>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center justify-between mb-4">
+                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-semibold">
+                  <%= event.category %>
+                </span>
+                <span class="text-gray-500 text-sm flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                  </svg>
+                  <%= new Date(event.startDate).toISOString().split('T')[0] %>
+                </span>
+              </div>
+              <h4 class="text-xl font-semibold text-gray-900 mb-2 group-hover:text-purple-700 transition"><%= event.name %></h4>
+              <div class="mt-6 flex items-center gap-4">
+                <a href="/events/<%= event._id %>" 
+                   class="text-purple-700 font-medium flex items-center gap-2 group-hover:gap-3 transition-all">
+                  Learn More
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                  </svg>
+                </a>
+                <a href="/register/<%= event._id %>" 
+                   class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M18 9v6m3-3h-6M9 11a4 4 0 100-8 4 4 0 000 8zm0 2a6 6 0 00-6 6v1h12v-1a6 6 0 00-6-6z"/>
+                  </svg>
+                  Register
+                </a>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+
+    <!-- Ongoing Events -->
+    <% if (ongoing && ongoing.length > 0) { %>
+      <h3 class="text-3xl font-bold text-green-600 mb-6">🔥 Ongoing Events</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <% ongoing.forEach(event => { %>
+          <div class="group bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all border border-green-200">
+            <div class="h-56 overflow-hidden relative">
+              <img src="../../uploads/img/<%= event.img %>" 
+                   class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                   alt="<%= event.name %>" />
+              <div class="absolute inset-0 bg-gradient-to-t from-green-600/50 to-transparent"></div>
+              <span class="absolute top-2 right-2 bg-green-600 text-white text-xs px-2 py-1 rounded-full font-semibold">Ongoing</span>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center justify-between mb-4">
+                <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">
+                  <%= event.category %>
+                </span>
+                <span class="text-gray-500 text-sm flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                  </svg>
+                  <%= new Date(event.startDate).toISOString().split('T')[0] %>
+                </span>
+              </div>
+              <h4 class="text-xl font-semibold text-gray-900 mb-2 group-hover:text-green-700 transition"><%= event.name %></h4>
+              <div class="mt-6 flex items-center gap-4">
+                <a href="/events/<%= event._id %>" 
+                   class="text-green-700 font-medium flex items-center gap-2 group-hover:gap-3 transition-all">
+                  Learn More
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                  </svg>
+                </a>
+                <a href="/register/<%= event._id %>" 
+                   class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A6.978 6.978 0 0012 20a6.978 6.978 0 006.879-2.196M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  </svg>
+                  Register
+                </a>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+
+    <!-- Past Events -->
+    <% if (past && past.length > 0) { %>
+      <h3 class="text-3xl font-bold text-gray-500 mb-6">📜 Past Events</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <% past.forEach(event => { %>
+          <div class="group bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all border border-gray-200">
+            <div class="h-56 overflow-hidden relative">
+              <img src="../../uploads/img/<%= event.img %>" 
+                   class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                   alt="<%= event.name %>" />
+              <div class="absolute inset-0 bg-gradient-to-t from-gray-600/40 to-transparent"></div>
+              <span class="absolute top-2 right-2 bg-gray-500 text-white text-xs px-2 py-1 rounded-full font-semibold">Past</span>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center justify-between mb-4">
+                <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-semibold">
+                  <%= event.category %>
+                </span>
+                <span class="text-gray-400 text-sm flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                  </svg>
+                  <%= new Date(event.startDate).toISOString().split('T')[0] %>
+                </span>
+              </div>
+              <h4 class="text-xl font-semibold text-gray-900 mb-2"><%= event.name %></h4>
+              <div class="mt-6 flex items-center gap-4">
+                <a href="/events/<%= event._id %>" 
+                   class="text-gray-600 font-medium flex items-center gap-2 group-hover:gap-3 transition-all">
+                  Learn More
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                  </svg>
+                </a>
+                <a href="/feeback/event._id" 
+                   class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A6.978 6.978 0 0012 20a6.978 6.978 0 006.879-2.196M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  </svg>
+                  Feedback
+                </a>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+
+  </section>
+</body>
+</html>

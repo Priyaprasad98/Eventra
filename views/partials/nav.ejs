@@ -1,0 +1,36 @@
+<header>
+  <nav class="bg-white/95 backdrop-blur-sm fixed w-full z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between items-center h-20">
+        <!-- Logo -->
+        <div class="flex-shrink-0">
+          <h1 class="text-3xl heading-font font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            Eventra
+          </h1>
+        </div>
+
+        <!-- Menu Links -->
+        <div class="hidden md:flex items-center space-x-6">
+          <a href="/" class="px-4 py-2 rounded transition duration-300 <%= currentPage === 'Home' ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700' %>">
+            Home
+          </a>
+          <a href="/events" class="px-4 py-2 rounded transition duration-300 <%= currentPage === 'Events' ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700' %>">
+            Events
+          </a>
+          <a href="/admin/add-event" class="px-4 py-2 rounded transition duration-300 <%= currentPage === 'Add-Event' ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700' %>">
+            Add Events
+          </a>
+          <a href="/admin/event-list" class="px-4 py-2 rounded transition duration-300 <%= currentPage === 'Event-List' ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700' %>">
+            Event List
+          </a>
+          <a href="/about" class="px-4 py-2 rounded transition duration-300 <%= currentPage === 'About' ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700' %>">
+            About
+          </a>
+          <a href="/login" class="px-4 py-2 rounded transition duration-300 <%= currentPage === 'SignIn' ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700' %>">
+            Sign In
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

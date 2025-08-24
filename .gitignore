@@ -1,0 +1,4 @@
+node_modules
+uploads/img
+uploads/docs
+.env

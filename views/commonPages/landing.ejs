@@ -1,0 +1,148 @@
+<%- include('../partials/head') %>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+   
+  <%- include('../partials/nav') %>
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-purple-50 to-indigo-50 -z-10"></div>
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="lg:flex items-center gap-16">
+                <div class="lg:w-1/2 space-y-8">
+                    <h2 class="heading-font text-5xl sm:text-6xl font-bold leading-tight">
+                        <span class="block text-gray-900">Discover Amazing</span>
+                        <span class="block bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">College Events</span>
+                    </h2>
+                    <p class="text-xl text-gray-600 leading-relaxed">
+                        Experience unforgettable moments at your college's most exciting events. From cultural fests to tech symposiums, find everything happening on campus.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="/events" class="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-4 rounded-full font-semibold hover:shadow-lg hover:shadow-purple-200 transition-all">
+                            Explore Events
+                        </a>
+                        <button class="bg-white text-gray-800 px-8 py-4 rounded-full font-semibold hover:shadow-lg border border-gray-200 transition-all">
+                            Create Event
+                        </button>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 mt-12 lg:mt-0">
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl blur-lg opacity-20"></div>
+                        <img 
+                            src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3"
+                            alt="College Event" 
+                            class="relative rounded-2xl shadow-2xl w-full object-cover h-[600px]"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Events Section -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <h3 class="heading-font text-3xl font-bold text-gray-900 mb-12">Featured Events</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Event Card 1 -->
+                <div class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all">
+                    <div class="h-56 overflow-hidden">
+                        <img 
+                            src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-4.0.3" 
+                            class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                            alt="Tech Event"
+                        />
+                    </div>
+                    <div class="p-8">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-sm font-medium">Tech</span>
+                            <span class="text-gray-400 text-sm">Aug 25, 2025</span>
+                        </div>
+                        <h4 class="text-xl font-semibold text-gray-900">Tech Symposium 2025</h4>
+                        <p class="mt-2 text-gray-600">Experience cutting-edge technology and innovation at our annual tech symposium.</p>
+                        <button class="mt-6 text-purple-600 font-medium flex items-center gap-2 group-hover:gap-3 transition-all">
+                            Learn More <span>→</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Event Card 2 -->
+                <div class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all">
+                    <div class="h-56 overflow-hidden">
+                        <img 
+                            src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3" 
+                            class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                            alt="Cultural Event"
+                        />
+                    </div>
+                    <div class="p-8">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="px-3 py-1 bg-pink-100 text-pink-600 rounded-full text-sm font-medium">Cultural</span>
+                            <span class="text-gray-400 text-sm">Sep 15, 2025</span>
+                        </div>
+                        <h4 class="text-xl font-semibold text-gray-900">Cultural Night</h4>
+                        <p class="mt-2 text-gray-600">A celebration of diversity through music, dance, and performances.</p>
+                        <button class="mt-6 text-purple-600 font-medium flex items-center gap-2 group-hover:gap-3 transition-all">
+                            Learn More <span>→</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Event Card 3 -->
+                <div class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all">
+                    <div class="h-56 overflow-hidden">
+                        <img 
+                            src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-4.0.3" 
+                            class="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                            alt="Sports Event"
+                        />
+                    </div>
+                    <div class="p-8">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-medium">Sports</span>
+                            <span class="text-gray-400 text-sm">Oct 1, 2025</span>
+                        </div>
+                        <h4 class="text-xl font-semibold text-gray-900">Sports Festival</h4>
+                        <p class="mt-2 text-gray-600">Annual sports meet featuring various competitions and tournaments.</p>
+                        <button class="mt-6 text-purple-600 font-medium flex items-center gap-2 group-hover:gap-3 transition-all">
+                            Learn More <span>→</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-20">
+        <div class="max-w-7xl mx-auto px-4 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="col-span-1 md:col-span-2">
+                    <h4 class="heading-font text-2xl font-bold mb-4">Eventra</h4>
+                    <p class="text-gray-400 max-w-md">Creating unforgettable college experiences through seamlessly organized events.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Connect</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Twitter</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Instagram</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-800 text-center text-gray-400">
+                <p>&copy; 2025 Eventra. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
