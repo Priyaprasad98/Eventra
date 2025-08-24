@@ -21,7 +21,11 @@ const registrationSchema = new mongoose.Schema({
   registeredAt: { 
     type: Date, 
     default: Date.now 
+  },
+  isFeedbackSubmitted: {
+    type: Boolean,
+    default: false  
   }
 });
-registrationSchema.index({ eventId: 1, studentEmail: 1 }, { unique: true });
+registrationSchema.index({ eventId: 1, studentEmail: 1 }, { unique: true });//First, MongoDB groups by eventId. Inside each eventId, it orders the emails alphabetically.
 module.exports = mongoose.model("Registration",registrationSchema );

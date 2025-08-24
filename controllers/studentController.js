@@ -109,3 +109,19 @@ exports.postRegistrationForm = async (req,res,next) => {
   }
 };
 
+exports.getfeedback = async (req, res, next) => {
+  const eventId = req.params.eventId;
+  try {
+    const registeredEvent = await Event.findById(eventId);
+    const registeredStudent = await Registration.findById()
+    if(!registeredEvent) {
+      req.query.status = "Not Registered"
+    }
+  }
+  const registeredEvent = await Event.findById(eventId);
+  res.render('student/feedback', {
+    pageTitle: "Feedback",
+    currentPage: "Event",
+
+  })
+}
