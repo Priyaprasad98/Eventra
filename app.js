@@ -34,7 +34,7 @@ const store= new sessionStore({
 app.use(session({
   secret: "eventra",
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   store: store //session will now save in store rather than memory
 }));
 
