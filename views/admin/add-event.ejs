@@ -1,43 +1,43 @@
 <%- include('../partials/head') %>
 
-<body class="bg-gray-100 font-sans">
+<body class="min-h-screen bg-gradient-to-br from-purple-300 via-purple-100 to-purple-300 font-sans">
+
+  <!-- Navbar -->
   <%- include('../partials/nav') %>
 
-  <!-- Main Content -->
-  <main class="pt-28 px-4 "> <!-- padding-top to avoid navbar overlap -->
-    <div class="max-w-3xl mx-auto bg-white p-8 rounded-3xl shadow-xl">
-      
+  <!-- Main Section with Background -->
+  <main class="relative flex justify-center items-start min-h-screen px-4 sm:px-6 lg:px-8
+               bg-cover bg-center pt-28"
 
+     <!-- Event Form Card  -->
+    <div class="relative z-10 w-full max-w-3xl bg-white rounded-3xl shadow-2xl p-10
+                opacity-0 translate-y-5 transition-all duration-700 ease-out">
 
-      <!-- Heading inside form card -->
+      <!-- Heading -->
       <h1 class="text-3xl font-bold mb-6 text-center text-purple-700">
-        <%= isEdit ? "Edit Event: " + event.name : "Add New Event" %></h1>
+        <%= isEdit ? "Edit Event: " + event.name : "Add New Event" %>
+      </h1>
 
-      <form action="<%= isEdit ? ('/admin/edit-event/' + event._id) : '/admin/add-event' %>"  method="POST" enctype="multipart/form-data" class="space-y-6">
+      <form action="<%= isEdit ? ('/admin/edit-event/' + event._id) : '/admin/add-event' %>" method="POST" enctype="multipart/form-data" class="space-y-6">
 
         <!-- Event Name -->
         <div>
-          <label class="block mb-1 font-semibold">Event Name</label>
+          <label class="block mb-1 font-semibold text-gray-700">Event Name</label>
           <input type="text" name="name" placeholder="Enter event name" value="<%=(isEdit) ? event.name : ''%>"
-            class="w-full border border-gray-300 rounded px-3 py-2 
-            focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm" required>
+                 class="w-full border border-purple-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm" required>
         </div>
 
         <!-- Description -->
         <div>
-          <label class="block mb-1 font-semibold">Description</label>
-          <textarea name="description" placeholder="Enter event description" 
-            class="w-full border border-gray-300 rounded px-3 py-2 
-            focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm"
-            rows="4" required><%= isEdit ? event.description : '' %></textarea>
+          <label class="block mb-1 font-semibold text-gray-700">Description</label>
+          <textarea name="description" placeholder="Enter event description" rows="4" required
+                 class="w-full border border-purple-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm"><%= isEdit ? event.description : '' %></textarea>
         </div>
 
         <!-- Category -->
         <div>
-          <label class="block mb-1 font-semibold">Category</label>
-          <select name="category"
-            class="w-full border border-gray-300 rounded px-3 py-2 
-            focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm" required>
+          <label class="block mb-1 font-semibold text-gray-700">Category</label>
+          <select name="category" class="w-full border border-purple-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm" required>
             <option value="">Select Category</option>
             <option value="Workshop" <%= isEdit && event.category === 'Workshop' ? 'selected' : '' %>>Workshop</option>
             <option value="Seminar" <%= isEdit && event.category === 'Seminar' ? 'selected' : '' %>>Seminar</option>
@@ -52,84 +52,74 @@
           </select>
         </div>
 
-        <!-- Date -->
+        <!-- Date & Time -->
         <div>
-          <label class="block mb-1 font-semibold">Date & Time</label>
+          <label class="block mb-1 font-semibold text-gray-700">Date & Time</label>
           <input type="datetime-local" name="startDate" value="<%= isEdit && event.startDate ? event.startDate.toISOString().slice(0,16) : '' %>"
-            class="w-full border border-gray-300 rounded px-3 py-2 
-            focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm" required>
+                 class="w-full border border-purple-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm" required>
         </div>
 
         <!-- Venue -->
         <div>
-          <label class="block mb-1 font-semibold">Venue</label>
+          <label class="block mb-1 font-semibold text-gray-700">Venue</label>
           <input type="text" name="venue" placeholder="Enter venue/location" value="<%=(isEdit) ? event.venue : ''%>"
-            class="w-full border border-gray-300 rounded px-3 py-2 
-            focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm" required>
+                 class="w-full border border-purple-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm" required>
         </div>
 
         <!-- Organizer -->
         <div>
-          <label class="block mb-1 font-semibold">Organizer</label>
+          <label class="block mb-1 font-semibold text-gray-700">Organizer</label>
           <input type="text" name="organizer" placeholder="Enter organizer/club name" value="<%=(isEdit) ? event.organizer : ''%>"
-            class="w-full border border-gray-300 rounded px-3 py-2 
-            focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm" required>
+                 class="w-full border border-purple-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm" required>
         </div>
 
-        <!-- Contact -->
+        <!-- Contact Number -->
         <div>
-          <label class="block mb-1 font-semibold">Organizer Contact Number</label>
-          <input type="text" name="organizerContactNumber" placeholder="Enter contact number" value="<%=(isEdit) ? event.OrganizerContactNumber : ''%>"
-            class="w-full border border-gray-300 rounded px-3 py-2 
-            focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm">
+          <label class="block mb-1 font-semibold text-gray-700">Organizer Contact Number</label>
+          <input type="text" name="organizerContactNumber" placeholder="Enter contact number" value="<%=(isEdit) ? event.organizerContactNumber : ''%>"
+                 class="w-full border border-purple-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm">
         </div>
 
         <!-- Max Participants -->
         <div>
-          <label class="block mb-1 font-semibold">Max Participants</label>
+          <label class="block mb-1 font-semibold text-gray-700">Max Participants</label>
           <input type="number" name="maxParticipants" placeholder="Enter max participants" value="<%=(isEdit) ? event.maxParticipants : ''%>"
-            class="w-full border border-gray-300 rounded px-3 py-2 
-            focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm">
+                 class="w-full border border-purple-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm">
         </div>
 
         <!-- Registration Deadline -->
         <div>
-          <label class="block mb-1 font-semibold">Registration Deadline</label>
+          <label class="block mb-1 font-semibold text-gray-700">Registration Deadline</label>
           <input type="date" name="registrationDeadline"
-          value="<%= isEdit && event.registrationDeadline ? event.registrationDeadline.toISOString().split('T')[0] : '' %>"
-            class="w-full border border-gray-300 rounded px-3 py-2 
-            focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm">
+                 value="<%= isEdit && event.registrationDeadline ? event.registrationDeadline.toISOString().split('T')[0] : '' %>"
+                 class="w-full border border-purple-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm">
         </div>
 
-        <!-- Poster -->
+        <!-- Poster / Banner -->
         <div>
-          <label class="block mb-1 font-semibold">Event Poster / Banner</label>
+          <label class="block mb-1 font-semibold text-gray-700">Event Poster / Banner</label>
           <input type="file" id="img" name="img" accept="image/jpg, image/jpeg, image/png"
-            class="w-full border border-gray-300 rounded px-3 py-2 
-            focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm">
+                 class="w-full border border-purple-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm">
         </div>
 
-        <!-- Documents -->
+        <!-- Supporting Documents -->
         <div>
-          <label class="block mb-1 font-semibold">Supporting Documents</label>
+          <label class="block mb-1 font-semibold text-gray-700">Supporting Documents</label>
           <input type="file" id="docs" name="docs" accept="application/pdf"
-            class="w-full border border-gray-300 rounded px-3 py-2 
-            focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm">
+                 class="w-full border border-purple-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm">
         </div>
 
-        <!-- Fee -->
+        <!-- Entry Fee -->
         <div>
-          <label class="block mb-1 font-semibold">Entry Fee (Optional)</label>
+          <label class="block mb-1 font-semibold text-gray-700">Entry Fee (Optional)</label>
           <input type="number" name="fee" placeholder="Enter fee amount (0 for free)"  value="<%=(isEdit) ? event.fee : ''%>"
-            class="w-full border border-gray-300 rounded px-3 py-2 
-            focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm">
+                 class="w-full border border-purple-900 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm">
         </div>
 
-        <!-- Submit -->
+        <!-- Submit Button -->
         <div class="text-center">
           <button type="submit"
-            class="bg-purple-600 text-white px-6 py-2 rounded 
-            hover:bg-purple-700 transition">
+                  class="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700 transition">
             <%=(isEdit) ? 'Edit Event' : 'Add Event' %>
           </button>
         </div>
@@ -137,5 +127,17 @@
       </form>
     </div>
   </main>
+
+  <!-- Smooth Slide-Up Animation -->
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const formBox = document.querySelector(".relative.z-10");
+      requestAnimationFrame(() => {
+        formBox.classList.remove("opacity-0", "translate-y-5");
+        formBox.classList.add("opacity-100", "translate-y-0");
+      });
+    });
+  </script>
+
 </body>
 </html>
