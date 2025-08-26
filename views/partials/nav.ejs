@@ -8,33 +8,47 @@
             Eventra
           </h1>
         </div>
-
+       
         <!-- Menu Links -->
         <div class="hidden md:flex items-center space-x-6">
           <a href="/" class="px-4 py-2 rounded transition duration-300 <%= currentPage === 'Home' ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700' %>">
             Home
           </a>
-          <a href="/events" class="px-4 py-2 rounded transition duration-300 <%= currentPage === 'Events' ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700' %>">
-            Events
-          </a>
-          <a href="/admin/add-event" class="px-4 py-2 rounded transition duration-300 <%= currentPage === 'Add-Event' ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700' %>">
-            Add Events
-          </a>
-          <a href="/admin/event-list" class="px-4 py-2 rounded transition duration-300 <%= currentPage === 'Event-List' ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700' %>">
-            Event List
-          </a>
+          <% if (isLoggedIn) { %>
+            <% if(user && user.userType == 'Student') { %>
+              <a href="/events" class="px-4 py-2 rounded transition duration-300 <%= currentPage === 'Events' ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700' %>">
+               Events
+              </a>
+            <% } %>
+            <% if (user && user.userType == 'Admin') { %>
+              <a href="/admin/events" class="px-4 py-2 rounded transition duration-300 <%= currentPage === 'Events' ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700' %>">
+              Events
+              </a>
+              <a href="/admin/add-event" class="px-4 py-2 rounded transition duration-300 <%= currentPage === 'Add-Event' ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700' %>">
+               Add Events
+              </a>
+              <a href="/admin/event-list" class="px-4 py-2 rounded transition duration-300 <%= currentPage === 'Event-List' ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700' %>">
+               Event List
+              </a>  
+          <% } %>
+          <% } %>
           <a href="/about" class="px-4 py-2 rounded transition duration-300 <%= currentPage === 'About' ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700' %>">
             About
           </a>
+          <% if(!isLoggedIn) { %>
           <a href="/login" class="px-4 py-2 rounded transition duration-300 <%= currentPage === 'Login' ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700' %>">
             Login
           </a>
+          
           <a href="/signup" class="px-4 py-2 rounded transition duration-300 <%= currentPage === 'signup' ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700' %>">
             SignUp
           </a>
-          <a href="/logout" class="px-4 py-2 rounded transition duration-300 <%= currentPage === 'logout' ? 'bg-purple-600 text-white' : 'text-gray-700 hover:bg-purple-100 hover:text-purple-700' %>">
-            SignUp
-          </a>
+          <% } %>
+          <% if (isLoggedIn) { %>
+          <form action="/logout" method="POST">
+          <input type = "submit" value="Logout" class="hover:bg-purple-100 hover:text-purple-700 px-4 py-2 mr-8 rounded transition duration-300">
+          <% } %>
+        </form>
         </div>
       </div>
     </div>
