@@ -4,7 +4,6 @@ const bcrypt = require("bcryptjs");
 
 //local module
 const User = require("../models/users");
-const { LogTimings } = require("concurrently");
 
 exports.getLogin = (req, res, next) => {
   res.render("auth/login", {
@@ -149,12 +148,13 @@ exports.postSignup = [
 
 exports.postLogin = async (req, res, next) => {
   const {email,password} = req.body;
+  console.log(req.body);
   const  user = await User.findOne({email});
   if(!user) {
-    res.render("auth/login",{
-      pageTitle: Login,
-      currentPage: Login,
-      IsLoggedIn: false,
+    return res.render("auth/login",{
+      pageTitle: "Login",
+      currentPage: "Login",
+      isLoggedIn: false,
       errors: ["Invalid Email"],
       oldInput: { email },
       user: {}
@@ -163,9 +163,9 @@ exports.postLogin = async (req, res, next) => {
   const isMatch = await bcrypt.compare(password,user.password);
   if(!isMatch) {
     return res.render("auth/login",{
-      pageTitle: Login,
-      currentPage: Login,
-      IsLoggedIn: false,
+      pageTitle: "Login",
+      currentPage: "Login",
+      isLoggedIn: false,
       errors: ["Invalid password"],
       oldInput: { email },
       user: {}
@@ -181,3 +181,11 @@ exports.postLogin = async (req, res, next) => {
   })
 };
 
+exports.postLogout = async (req, res, next) => {
+  req.session.destroy(err => {
+    if(err) {
+      console.log("Error destroying session:", err);
+    }
+    res.redirect("/");
+  });
+};
