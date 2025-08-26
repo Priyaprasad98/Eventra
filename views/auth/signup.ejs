@@ -21,21 +21,21 @@
       <div class="mb-6 text-center">
         <h1 class="text-3xl font-bold text-gray-900">Create your account</h1>
       </div>
-
+      <%- include('../partials/error') %>
       <form action="/signup" method="POST" class="space-y-4">
 
         <!-- First + Last Name -->
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
-            <input type="text" name="firstName" id="firstName" required
+            <input type="text" name="firstName" id="firstName" value="<%=oldInput.firstName || ''%>" required
                    class="mt-1 block w-full px-3 py-2 border border-purple-900 rounded-md shadow-sm placeholder-grey-400
                           focus:outline-none focus:border-purple-950 focus:ring-1 focus:ring-purple-700">
           </div>
 
           <div>
             <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
-            <input type="text" name="lastName" id="lastName"
+            <input type="text" name="lastName" id="lastName" value="<%=oldInput.lastName || ''%>"
                    class="mt-1 block w-full px-3 py-2 border border-purple-900 rounded-md shadow-sm placeholder-grey-400
                           focus:outline-none focus:border-purple-950 focus:ring-1 focus:ring-purple-700">
           </div>
@@ -44,7 +44,7 @@
         <!-- Email -->
         <div>
           <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-          <input type="email" name="email" id="email" placeholder="you@example.com" required
+          <input type="email" name="email" id="email" placeholder="you@example.com" value="<%=oldInput.email || ''%>" required
                  class="mt-1 block w-full px-3 py-2 border border-purple-900 rounded-md shadow-sm placeholder-grey-400
                           focus:outline-none focus:border-purple-950 focus:ring-1 focus:ring-purple-700">
         </div>
@@ -68,11 +68,14 @@
         <!-- User Type -->
         <div class="flex space-x-6">
           <label class="inline-flex items-center">
-            <input type="radio" name="userType" value="Student" class="h-4 w-4 cursor-pointer">
-            <span class="ml-2 text-sm text-gray-700">Student</span>
+            <input type="radio" name="userType" value="Student" class="h-4 w-4 cursor-pointer" 
+            <% if (oldInput.userType === 'Student') { %> checked <% } %> >Student
+            <span class="ml-2 text-sm text-gray-700">
+             </span>
           </label>
           <label class="inline-flex items-center">
-            <input type="radio" name="userType" value="Admin" class="h-4 w-4 cursor-pointer">
+            <input type="radio" name="userType" value="Admin" class="h-4 w-4 cursor-pointer" 
+             <% if (oldInput.userType === 'Admin') { %> checked <% } %> >
             <span class="ml-2 text-sm text-gray-700">Admin</span>
           </label>
         </div>

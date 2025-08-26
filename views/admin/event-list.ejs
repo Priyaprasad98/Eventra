@@ -102,7 +102,9 @@
               <div class="flex gap-2">
                 <a href="/admin/edit-event/<%= event._id %>" class="bg-amber-400 text-white px-3 py-1 rounded hover:bg-amber-500 transition">Edit</a>
                 <form action="/admin/delete-event/<%= event._id %>" method="POST" class="inline-block">
+                  <input type="hidden" name="redirectTo" value="/admin/event-list">
                   <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition" onclick="return confirm('Are you sure?')">Delete</button>
+                  
                 </form>
               </div>
             </div>
