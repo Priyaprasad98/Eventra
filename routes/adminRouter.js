@@ -1,9 +1,20 @@
 const express = require('express');
 const adminRouter = express.Router();
 const adminController = require('../controllers/adminController');
-console.log("Loaded adminController keys:", Object.keys(adminController));
-// Add your routes here
-// Example:
+ 
+adminRouter.use((req,res,next) => {
+  if(req.session.user == 'Admin') {
+    next();
+  }
+  else {
+    res.render("error/403", {
+      isLoggedIn: req.session.isLoggedIn,
+      user: req.session.user,
+      pageTitle: "Error 403",
+      currentPage: ""
+    })
+  }
+});
 adminRouter.get('/add-event', adminController.getAddEvent);
 
 adminRouter.post('/add-event', adminController.postAddEvent);
