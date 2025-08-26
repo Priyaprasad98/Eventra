@@ -10,7 +10,9 @@ exports.getAddEvent = (req, res, next) => {
   res.render("admin/add-event",{
     isEdit: false,
     pageTitle: "Add-Event",
-    currentPage: "Add-Event"
+    currentPage: "Add-Event",
+    isLoggedIn: req.isLoggedIn,
+    user: req.session.user
   });
 };
 
@@ -55,7 +57,9 @@ exports.getAdminEventList = async (req, res, next) => {
       currentPage: "Event-List",
       events,
       filterCategory: category,
-      filterStatus: status
+      filterStatus: status,
+      isLoggedIn: req.isLoggedIn,
+      user: req.session.user
     });
   } catch (err) {
     console.error(err);
@@ -102,11 +106,11 @@ exports.postAddEvent = async (req, res, next) => {
     }
 };
 
-
 exports.postDeleteEvent = (req, res, next) => {
   const eventId = req.params.id;
+  const redirectTo = req.body.redirectTo;
   Event.findByIdAndDelete(eventId).then(() => {
-    res.redirect("/admin/event-list");
+    res.redirect(redirectTo);
   }).catch(err => console.log(err));
 };
 
@@ -118,7 +122,9 @@ exports.getEditEvent = (req, res, next) => {
       event,
       isEdit : true,
       pageTitle: "Edit Event",
-      currentPage: "Event-List"
+      currentPage: "Event-List",
+      isLoggedIn: req.isLoggedIn,
+      user: req.session.user
      });
   }).catch(err => console.log(err));
 };
@@ -186,6 +192,8 @@ exports.getAdminEventCards = async (req, res, next) => {
   res.render("commonPages/events", { 
     upcoming, ongoing, past,
     pageTitle: "Events",
-    currentPage: "Events"
+    currentPage: "Events",
+    isLoggedIn: req.isLoggedIn,
+    user: req.session.user
   });
 };

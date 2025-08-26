@@ -20,12 +20,16 @@ exports.getEvents = async (req, res, next) => {
   res.render("commonPages/events", { 
     upcoming, ongoing, past,
     pageTitle: "Events",
-    currentPage: "Events"
+    currentPage: "Events",
+    isLoggedIn: req.isLoggedIn,
+    user: req.session.user
    });
 };
 
 exports.getRegistrationForm = async (req, res, next) => {
   const eventId = req.params.eventId;
+  //const status = req.query.status;
+  //console.log(status);
   try {
     const event = await Event.findById(eventId);
     if (!event) {
@@ -35,7 +39,9 @@ exports.getRegistrationForm = async (req, res, next) => {
       pageTitle: "Register",
       currentPage: "Events",
       event,
-      query: req.query
+      query: req.query,
+      isLoggedIn: req.isLoggedIn,
+      user: req.session.user
     }); 
   }
   catch(err) {
@@ -109,19 +115,19 @@ exports.postRegistrationForm = async (req,res,next) => {
   }
 };
 
-exports.getfeedback = async (req, res, next) => {
-  const eventId = req.params.eventId;
-  try {
-    const registeredEvent = await Event.findById(eventId);
-    const registeredStudent = await Registration.findById()
-    if(!registeredEvent) {
-      req.query.status = "Not Registered"
-    }
-  }
-  const registeredEvent = await Event.findById(eventId);
-  res.render('student/feedback', {
-    pageTitle: "Feedback",
-    currentPage: "Event",
+// exports.getfeedback = async (req, res, next) => {
+//   const eventId = req.params.eventId;
+//   try {
+//     const registeredEvent = await Event.findById(eventId);
+//     const registeredStudent = await Registration.findById()
+//     if(!registeredEvent) {
+//       req.query.status = "Not Registered"
+//     }
+//   }
+//   const registeredEvent = await Event.findById(eventId);
+//   res.render('student/feedback', {
+//     pageTitle: "Feedback",
+//     currentPage: "Event",
 
-  })
-}
+//   })
+// }
