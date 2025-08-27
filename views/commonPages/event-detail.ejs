@@ -1,0 +1,392 @@
+<%- include('../partials/head') %>
+<body class="min-h-screen bg-gradient-to-br from-purple-300 via-purple-100 to-purple-300 font-sans">
+
+  <%- include('../partials/nav') %>
+
+  <!-- Hero Section with Fullscreen Image -->
+  <section class="relative w-full h-[60vh] md:h-[70vh] lg:h-[80vh] flex items-center justify-center text-center overflow-hidden">
+    <!-- Background Image -->
+    <img src="/uploads/img/<%= event.img %>" alt="<%= event.name %>" 
+         class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-in-out hover:scale-105"/>
+    
+    <!-- Dark Overlay -->
+    <div class="absolute inset-0 bg-black/40"></div>
+
+    <!-- Hero Content -->
+    <div class="relative z-10 px-4 text-white fade-in">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 animate-slide-down">
+        <%= event.name %>
+      </h1>
+      <p class="text-lg md:text-xl mb-6 animate-fade-in-delay">Discover and get more from professional events</p>
+      <a href="/register/<%= event._id %>" 
+         class="hero-btn animate-fade-in-delay-2">
+        Register Now
+      </a>
+    </div>
+  </section>
+
+<!-- Event Details Container -->
+
+<!-- Event Highlights Section -->
+<section class="highlight-section">
+  <div class="highlight-card">
+    <h2>Event Highlights</h2>
+
+    <p class="intro mb-5">
+      Join us for <strong><%= event.name %></strong>, organized by <strong><%= event.organizer %></strong> at <strong><%= event.venue %></strong>. 
+      This professional event starts on <strong><%= new Date(event.startDate).toISOString().split('T')[0] %></strong> at <strong><%= eventTime %></strong>. 
+      Register before <strong><%= event.registrationDeadline.toDateString() %></strong>.
+    </p>
+
+    <div class="grid-container">
+
+      
+  <!-- Date -->
+  <div class="grid-item">
+    <!-- Calendar SVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+      <line x1="16" y1="2" x2="16" y2="6"/>
+      <line x1="8" y1="2" x2="8" y2="6"/>
+      <line x1="3" y1="10" x2="21" y2="10"/>
+    </svg>
+    <div>
+      <p class="title">Date</p>
+      <p class="info"><%= new Date(event.startDate).toISOString().split('T')[0] %></p>
+    </div>
+  </div>
+
+  <!-- Time -->
+  <div class="grid-item">
+    <!-- Clock SVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <circle cx="12" cy="12" r="10" stroke-width="2"/>
+      <path d="M12 6v6l4 2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div>
+      <p class="title">Time</p>
+      <p class="info"><%= eventTime %></p>
+    </div>
+  </div>
+
+
+  <!-- Venue -->
+  <div class="grid-item">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon text-purple-800">
+      <path fill-rule="evenodd" d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clip-rule="evenodd"/>
+    </svg>
+    <div>
+      <p class="title">Venue</p>
+      <p class="info"><%= event.venue %></p>
+    </div>
+  </div>
+
+  <!-- Participants -->
+  <div class="grid-item">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+        d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87M16 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+</svg>
+    <div>
+      <p class="title">Participants</p>
+      <p class="info">Maximum: <%= event.maxParticipants %></p>
+    </div>
+  </div>
+
+    <!-- Registration & Fee -->
+  <div class="grid-item">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M6 2h12v4l-6 6 6 6v4H6v-4l6-6-6-6V2z"/>
+</svg>
+    <div>
+      <p class="title">Registration & Fee</p>
+      <p class="info">Deadline: <%= event.registrationDeadline.toDateString() %> | Fee: <% if(event.fee=='0'){ %>Free<% } else { %><%= event.fee %><% } %></p>
+    </div>
+  </div>
+    
+    <!-- Organizer & Contact -->
+  <div class="grid-item">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 0 1 2-2h2.5a1 1 0 0 1 1 .75l1 4a1 1 0 0 1-.25 1l-2 2a11.042 11.042 0 0 0 5 5l2-2a1 1 0 0 1 1-.25l4 1a1 1 0 0 1 .75 1V19a2 2 0 0 1-2 2h-1C7.82 21 3 16.18 3 10V5z"/>
+  </svg>
+    <div>
+      <p class="title">Organizer & Contact</p>
+      <p class="info"><%= event.organizer %> | <%= event.organizerContactNumber %></p>
+    </div>
+  </div>
+
+</div>
+
+<p class="description"><strong>About this event:</strong> <%= event.description %></p>
+
+<div class="m-5">
+        <a href = "/details/<%=event._id%>" class="text-lg text-pink-600">Download House rules </a>
+
+      </div>
+<!-- Countdown Section -->
+<section class="countdown-section">
+  <div class="countdown-card">
+    ⏳ Registration ends in: <span id="countdown">Loading...</span>
+  </div>
+</section>
+
+<!-- Feedback Section -->
+<section class="feedback-section max-w-5xl mx-auto my-12 px-4">
+  <h2 class="text-3xl font-bold text-purple-700 text-center mb-8">Feedback</h2>
+
+  <% if(feedbacks && feedbacks.length > 0) { %>
+    <div class="feedback-grid">
+      <% feedbacks.forEach(fb => { %>
+        <div class="feedback-card">
+          <div class="feedback-header">
+            <div class="avatar"><%= fb.studentName.charAt(0).toUpperCase() %></div>
+            <p class="fb-name"><%= fb.studentName %></p>
+          </div>
+          <p class="fb-comment"><%= fb.comment %></p>
+          <p class="fb-rating">
+            <% for(let i = 0; i < fb.rating; i++) { %>⭐<% } %>
+          </p>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <p class="no-feedback">No feedback yet for this event.</p>
+  <% } %>
+</section>
+
+  <style>
+    /* Hero Button */
+    .hero-btn {
+      display: inline-block;
+      padding: 12px 30px;
+      background-color: #6B46C1;
+      color: white;
+      font-weight: bold;
+      border-radius: 9999px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .hero-btn:hover {
+      transform: scale(1.05);
+      background-color: #805AD5;
+    }
+
+/* Container */
+  .highlight-section, .countdown-section, .feedback-section {
+    max-width: 1000px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+  }
+
+  /* Cards */
+  .highlight-card, .countdown-card, .feedback-card {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .highlight-card:hover, .feedback-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  }
+
+  /* Headings */
+  .highlight-card h2, .feedback-section h2 {
+    text-align: center;
+    color: #6B46C1;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  /* Grid layout */
+  .grid-container {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+  
+  .description {
+    margin-top: 1.5rem; /* smaller gap for all screens */
+    color: #4A5568;
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+ 
+  @media(min-width: 768px) {
+    .grid-container {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .grid-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .icon {
+    width: 28px;
+    height: 28px;
+    color: #6B46C1;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+
+  .title {
+    font-weight: bold;
+    color: #553C9A;
+    margin-bottom: 0.25rem;
+  }
+
+  .info {
+    color: #4A5568;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .description {
+    margin-top: 1.5rem;
+    color: #4A5568;
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: justify;
+  }
+
+  /* Countdown */
+  .countdown-card {
+    text-align: center;
+    color: #6B46C1;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  /* Feedback Section */
+.feedback-section {
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+.feedback-section h2 {
+  text-align: center;
+  color: #6B46C1;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Grid Layout */
+.feedback-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media(min-width: 768px) {
+  .feedback-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Feedback Card */
+.feedback-card {
+  background: #faf5ff;
+  border-left: 4px solid #6B46C1;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feedback-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+/* Feedback Header */
+.feedback-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background: #D6BCFA;
+  color: #6B46C1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.fb-name {
+  margin-left: 0.75rem;
+  font-weight: 600;
+  color: #553C9A;
+}
+
+/* Feedback Comment */
+.fb-comment {
+  color: #4A5568;
+  margin: 0.5rem 0 1rem 0;
+  line-height: 1.5;
+}
+
+/* Feedback Rating */
+.fb-rating {
+  color: #805AD5;
+  font-weight: 500;
+}
+
+/* No Feedback Message */
+.no-feedback {
+  text-align: center;
+  color: #718096;
+  font-style: italic;
+  padding: 2rem 0;
+}
+
+  /* Animations */
+    .fade-in { opacity: 0; animation: fadeIn 0.8s forwards; }
+    @keyframes fadeIn { to { opacity: 1; } }
+
+    .animate-slide-down { animation: slideDown 0.8s forwards; }
+    @keyframes slideDown { 0% { opacity: 0; transform: translateY(-30px);} 100% { opacity: 1; transform: translateY(0);} }
+
+    .animate-fade-in-delay { animation: fadeIn 1s forwards; animation-delay: 0.3s; }
+    .animate-fade-in-delay-2 { animation: fadeIn 1s forwards; animation-delay: 0.6s; }
+  </style>
+
+  <!-- Countdown Script -->
+  <script>
+  const deadline = new Date("<%=event.registrationDeadline%>").getTime();
+  const countdownEl = document.getElementById("countdown");
+
+  const timer = setInterval(() => {
+    const now = new Date().getTime();
+    const distance = deadline - now;
+
+    if (distance <= 0) {
+      countdownEl.innerHTML = "Registration Closed!";
+      clearInterval(timer);
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }, 1000);
+  </script>
+</body>
+</html>

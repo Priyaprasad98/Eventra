@@ -111,6 +111,7 @@ exports.postRegistrationForm = async (req,res,next) => {
         </div>
       `;
       await sendMail(studentEmail, `Registration Confirmation: ${event.name}`, confirmationHTML,event);
+
       res.redirect(`/thank-you?eventId=${eventId}&name=${encodeURIComponent(studentName)}&email=${encodeURIComponent(studentEmail)}`);
     }  
     catch(err) {
@@ -136,7 +137,7 @@ exports.getFeedback = async (req, res, next) => {
 exports.postFeedback = async (req, res, next) => {
   console.log(req.body);
   const eventId = req.params.eventId;
-  const {rating,comment,studentEmail} = req.body;
+  const {rating,comment,studentEmail,studentName} = req.body;
   
   try {
     const registeredStudent = await Registration.findOne({
@@ -154,6 +155,7 @@ exports.postFeedback = async (req, res, next) => {
         const feedback = new Feedback({
           eventId: new mongoose.Types.ObjectId(eventId),
           registeredStudentId: registeredStudent._id,
+          studentName,
           rating,
           comment
         });
