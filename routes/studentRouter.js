@@ -12,6 +12,7 @@ studentRouter.get('/feedback/:eventId', studentController.getFeedback);
 
 studentRouter.post('/feedback/:eventId', studentController.postFeedback);
 
+studentRouter.get("/thank-you", studentController.getThankYou);
 
 
 module.exports = studentRouter;

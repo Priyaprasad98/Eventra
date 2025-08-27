@@ -168,4 +168,27 @@ exports.postFeedback = async (req, res, next) => {
   }  
 };
 
+exports.getThankYou = async (req, res, next) => {
+  const { eventId, name, email } = req.query;
+
+  try {
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return res.status(404).send("Event not found");
+    }
+
+    res.render("student/thank-you", {
+      event,
+      studentName: name,
+      studentEmail: email,
+      isLoggedIn: req.session.isLoggedIn,
+      user: req.session.user,
+      pageTitle: "Registration Successfull",
+      currentPage:""
+    });
+  } catch (err) {
+    console.error(err);
+    res.redirect("/events");
+  }
+};
 
