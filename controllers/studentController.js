@@ -1,5 +1,8 @@
+const mongoose = require("mongoose");
+
 const Event = require("../models/events");
 const Registration = require("../models/registrations");
+const Feedback = require("../models/feedback");
 const sendMail = require("../mailer");
 const formatEventDate = require("../utils/format");
 
@@ -53,28 +56,28 @@ exports.postRegistrationForm = async (req,res,next) => {
   console.log(req.body);
   const {studentName, studentEmail, studentPhoneNo, studentDepartment, registeredAt} = req.body;
   const eventId = req.params.eventId;
-   const existing = await Registration.findOne({ eventId, studentEmail });
+  try {
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return res.status(404).send("Event not found");
+    }
+    const existing = await Registration.findOne({      
+      eventId: new mongoose.Types.ObjectId(eventId),
+      studentEmail 
+    });
     if (existing) {
       // Redirect with already registered query
       return res.redirect(`/register/${eventId}?status=already`);
     }
-  const registration = new Registration({
-    eventId,
+    const registration = new Registration({
+    eventId: new mongoose.Types.ObjectId(eventId),
     studentName,
     studentEmail,
     studentPhoneNo,
     studentDepartment,
     registeredAt
-  });
-  try {
+    });
    await registration.save();
-     console.log("Registration done successfully!");
-     res.redirect(`/register/${eventId}?status=success`);
-
-     const event = await Event.findById(eventId);
-     if(!event) {
-      return res.status(404).send("Event not found");
-     }
       //send immediate confirmation email
       const confirmationHTML = `
           <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
@@ -108,26 +111,61 @@ exports.postRegistrationForm = async (req,res,next) => {
         </div>
       `;
       await sendMail(studentEmail, `Registration Confirmation: ${event.name}`, confirmationHTML,event);
-     }  
+      res.redirect(`/thank-you?eventId=${eventId}&name=${encodeURIComponent(studentName)}&email=${encodeURIComponent(studentEmail)}`);
+    }  
     catch(err) {
       console.error(err);
       res.redirect(`/register/${req.params.id}?status=error`);
   }
 };
 
-// exports.getfeedback = async (req, res, next) => {
-//   const eventId = req.params.eventId;
-//   try {
-//     const registeredEvent = await Event.findById(eventId);
-//     const registeredStudent = await Registration.findById()
-//     if(!registeredEvent) {
-//       req.query.status = "Not Registered"
-//     }
-//   }
-//   const registeredEvent = await Event.findById(eventId);
-//   res.render('student/feedback', {
-//     pageTitle: "Feedback",
-//     currentPage: "Event",
+exports.getFeedback = async (req, res, next) => {
+  const eventId = req.params.eventId;
+  event = await Event.findById(eventId);
+  res.render("student/feedback", {
+    isLoggedIn: req.session.isLoggedIn,
+    user: req.session.user,
+    pageTitle: "Feedback",
+    currentPage: "Events",
+    query: req.query,
+    event: event
+  });
+  
+};
 
-//   })
-// }
+exports.postFeedback = async (req, res, next) => {
+  console.log(req.body);
+  const eventId = req.params.eventId;
+  const {rating,comment,studentEmail} = req.body;
+  
+  try {
+    const registeredStudent = await Registration.findOne({
+      eventId: new mongoose.Types.ObjectId(eventId), 
+      studentEmail
+    });
+    console.log(registeredStudent);
+    if(!registeredStudent) {
+      return res.redirect(`/feedback/${eventId}?status=NotRegistered`);
+    }
+    else if(registeredStudent.isFeedbackSubmitted) {
+      return res.redirect(`/feedback/${eventId}?status=already`);
+    }
+    else {
+        const feedback = new Feedback({
+          eventId: new mongoose.Types.ObjectId(eventId),
+          registeredStudentId: registeredStudent._id,
+          rating,
+          comment
+        });
+        await feedback.save();
+        registeredStudent.isFeedbackSubmitted = true;
+        await registeredStudent.save();
+        res.redirect(`/events/${eventId}?status=success`);
+      }
+  }
+  catch(err) {
+    console.log("Error saving feedback:",err);
+  }  
+};
+
+
