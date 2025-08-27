@@ -9,6 +9,10 @@ const feedbackSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, ref: "Registration", 
     required: true 
   },
+  studentName: {
+    type: String,
+    required: true
+  },
   rating: { 
     type: Number, 
     min: 1, 
