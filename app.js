@@ -88,8 +88,6 @@ app.use(multer(multerOptions).fields([
   { name: 'docs', maxCount: 1 }
 ]));
 
-app.use(express.urlencoded({ extended: true }));
-
 app.use(express.static(path.join(rootdir,"public")));
 app.use("/uploads", express.static(path.join(rootdir,"uploads/")));
 
