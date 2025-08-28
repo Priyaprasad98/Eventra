@@ -1,0 +1,282 @@
+<%- include('../partials/head') %>
+   <link rel="stylesheet" href="index.css">
+</head>
+
+<body class="bg-gradient-to-br from-purple-300 via-purple-100 to-purple-300">
+<header>
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <!-- Logo -->
+        <div class="logo">
+          <h1>Eventra</h1>
+        </div>
+
+        <!-- Menu Links -->
+        <div class="nav-links">
+          <a href="/" class="<%= currentPage === 'Home' ? 'active' : '' %>">Home</a>
+
+          <% if (isLoggedIn) { %>
+            <% if(user && user.userType == 'Student') { %>
+              <a href="/events" class="<%= currentPage === 'Events' ? 'active' : '' %>">Events</a>
+            <% } %>
+            <% if(user && user.userType == 'Admin') { %>
+              <a href="/admin/events" class="<%= currentPage === 'Events' ? 'active' : '' %>">Events</a>
+              <a href="/admin/add-event" class="<%= currentPage === 'Add-Event' ? 'active' : '' %>">Add Events</a>
+              <a href="/admin/event-list" class="<%= currentPage === 'Event-List' ? 'active' : '' %>">Event List</a>
+            <% } %>
+          <% } %>
+
+          <a href="/about" class="<%= currentPage === 'About' ? 'active' : '' %>">About</a>
+
+          <% if (!isLoggedIn) { %>
+            <a href="/login" class="<%= currentPage === 'Login' ? 'active' : '' %>">Login</a>
+            <a href="/signup" class="<%= currentPage === 'signup' ? 'active' : '' %>">SignUp</a>
+          <% } %>
+
+          <% if (isLoggedIn) { %>
+            <form action="/logout" method="POST">
+              <input type="submit" value="Logout" class="logout-btn">
+            </form>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+
+
+  <!-- Hero Section -->
+  <section>
+
+
+    <div class="hero">
+      <div class="headings">
+        <h1>Discover & Join <br> College Events</h1>
+        <p>Workshops, fests, hackathons & club activities + all in one place</p>
+      </div>
+      <div class="buttons">
+        <a class="btn" href="/events">Explore Events</a>
+        <a class="btn">Register Now</a>
+      </div>
+    </div>
+  </section>
+   <div class="evenSlide">
+     <!-- <div class="catEvent"
+   <h2>
+    <span>E</span>
+    <span>V</span>
+    <span>E</span>
+    <span>N</span>
+    <span>T</span>
+    <span>S</span>
+  </h2>
+</div>  -->
+
+    <section class="secSection bg-gradient-to-br from-purple-300 via-purple-100 to-purple-300">
+    <div class="catEvent">
+  <h2>
+    <span>E</span>
+    <span>V</span>
+    <span>E</span>
+    <span>N</span>
+    <span>T</span>
+    <span>S</span>
+  </h2>
+    </div>
+      <div class="slider-container">
+        <button class="nav-btn prev">&#10094;</button>
+        <div class="slider">
+          <% if(events && events.length > 0) { %>
+            <% events.forEach(event => { %>
+              <div class="card"><img src="/uploads/img/<%= event.img %>">
+            <div class="card-body">
+              <span class="tag designer"><%=event.category%></span>
+              <h3><%=event.name%></h3>
+              <p>
+                <%=new Date(event.startDate).toISOString().split('T')[0]%> | <%=event.venue %></p>
+            </div>
+          </div>
+           <% })%>
+          <% } %> 
+        </div>
+        <button class="nav-btn next">&#10095;</button>
+        </div>
+        <div class="dots"></div>
+      
+  </div>
+  <script>
+    const slider = document.querySelector('.slider');
+    const prevBtn = document.querySelector('.prev');
+    const nextBtn = document.querySelector('.next');
+    const dotsContainer = document.querySelector('.dots');
+    let cards = document.querySelectorAll('.card');
+    let index = 1;
+    let startX = 0, endX = 0;
+    let autoSlideInterval;
+
+    // Clone first and last card
+    const firstClone = cards[0].cloneNode(true);
+    const lastClone = cards[cards.length - 1].cloneNode(true);
+    firstClone.id = "first-clone";
+    lastClone.id = "last-clone";
+    slider.appendChild(firstClone);
+    slider.insertBefore(lastClone, slider.firstChild);
+
+    let allCards = document.querySelectorAll('.card');
+
+    function getCardWidth() {
+      return allCards[0].offsetWidth + 20; // width + margin
+    }
+
+    function setInitialPosition() {
+      slider.style.transform = `translateX(${-index * getCardWidth()}px)`;
+    }
+    window.addEventListener("resize", setInitialPosition);
+    setInitialPosition();
+
+    // Create dots
+    for (let i = 0; i < cards.length; i++) {
+      const dot = document.createElement('span');
+      dot.classList.add('dot');
+      if (i === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => moveToSlide(i + 1));
+      dotsContainer.appendChild(dot);
+    }
+    const dots = document.querySelectorAll('.dot');
+
+    function updateDots() {
+      dots.forEach(dot => dot.classList.remove('active'));
+      let realIndex = index - 1;
+      if (realIndex >= cards.length) realIndex = 0;
+      if (realIndex < 0) realIndex = cards.length - 1;
+      dots[realIndex].classList.add('active');
+    }
+
+    function moveToSlide(i) {
+      index = i;
+      slider.style.transition = "transform 0.4s ease-in-out";
+      slider.style.transform = `translateX(${-index * getCardWidth()}px)`;
+    }
+
+    function nextSlide() { moveToSlide(index + 1); }
+    function prevSlide() { moveToSlide(index - 1); }
+
+    nextBtn.addEventListener('click', () => { nextSlide(); resetAutoSlide(); });
+    prevBtn.addEventListener('click', () => { prevSlide(); resetAutoSlide(); });
+
+    // Infinite Loop Fix
+    slider.addEventListener('transitionend', () => {
+      if (allCards[index].id === "first-clone") {
+        slider.style.transition = "none";
+        index = 1;
+        slider.style.transform = `translateX(${-index * getCardWidth()}px)`;
+      }
+      if (allCards[index].id === "last-clone") {
+        slider.style.transition = "none";
+        index = cards.length;
+        slider.style.transform = `translateX(${-index * getCardWidth()}px)`;
+      }
+      updateDots();
+    });
+
+    // Touch Swipe
+    slider.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+    slider.addEventListener('touchend', (e) => {
+      endX = e.changedTouches[0].clientX;
+      let diff = startX - endX;
+      if (diff > 50) { nextSlide(); }
+      if (diff < -50) { prevSlide(); }
+      resetAutoSlide();
+    });
+
+    // Auto-slide
+    function startAutoSlide() { autoSlideInterval = setInterval(nextSlide, 4000); }
+    function resetAutoSlide() { clearInterval(autoSlideInterval); startAutoSlide(); }
+    startAutoSlide();
+  </script>
+  </section>
+  <!-- Clubs and socities -->
+  <div class="organizers">
+
+<h2>Clubs & Societies</h2>
+    <div class="clubs-socities">
+      <div class="nss">
+        <div class="logo"><img src="nss.jpg" alt=""></div>
+        <div>
+          <h3>NSS</h3>
+         
+        </div>
+
+      </div>
+      <div class="xts">
+        <div class="logo"><img src="xts.jpg" alt=""></div>
+        <div>
+          <h3>XTS</h3>
+           <!-- <button style="margin-top: 10px;">Learn more</button> -->
+        </div>
+
+      </div>
+      <div class="empyrene">
+        <div class="logo"><img src="empyrean.jpg" alt=""></div>
+        <div>
+          <h3>Empyrean</h3>
+    
+        </div>
+
+      </div>
+      <div class="rotract">
+        <div class="logo"><img src="rotract.jpg" alt=""></div>
+        <div>
+          <h3>Rotaract</h3>
+        
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+
+      <!-- Important Links -->
+      <div class="footer-section">
+        <h3>Important Links</h3>
+        <ul>
+          <li><a href="#">About Events</a></li>
+          <li><a href="#">About Clubs</a></li>
+          <li><a href="aboutUs.html">About Us</a></li>
+        </ul>
+      </div>
+      <!-- Event Info -->
+      <div class="footer-section">
+        <h3>Event Info</h3>
+        <ul>
+          <li>📍 St Xavier's College, Ranchi</li>
+        </ul>
+        <button class="query-btn">Any Queries?</button>
+      </div>
+
+      <!-- Contact / Social -->
+      <div class="footer-section">
+        <h3>Connect With Us</h3>
+        <p>Email: <a href="eventra.notification@gmail.com" style="color: rgb(165, 115, 187);">eventra.notification@gmail.com</a></p>
+        <p>Phone: +91 98765 43210</p>
+        <div class="social-icons">
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
+          <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram"></a>
+          <!-- <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733614.png" alt="Instagram"></a> -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-bottom">
+      © 2025 St Xavier's College, Ranchi. All Rights Reserved.
+    </div>
+  </footer>
+</body>
+
+</html>

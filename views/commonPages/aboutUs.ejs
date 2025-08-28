@@ -1,0 +1,249 @@
+<%- include('../partials/head') %>
+
+<body>
+
+  <!-- Navbar -->
+  <%- include('../partials/nav') %>
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --panel:#0f1522;
+      --text:#eaf1ff;
+      --muted:#a5b4d6;
+      --radius:20px;
+      --ring1:#7dd3fc; /* cyan */
+      --ring2:#a78bfa; /* purple */
+      --ring3:#f472b6; /* pink */
+      --ring4:#226dee; /* teal */
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Poppins, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 700px at 110% -10%, rgba(167,139,250,.16), transparent 60%),
+        radial-gradient(900px 600px at -10% 10%, rgba(110,231,255,.12), transparent 60%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.65;
+    }
+
+    /* Hero */
+    .hero{
+      min-height:38vh;
+      display:grid; place-items:center;
+      text-align:center;
+      padding:64px 18px 40px;
+      background:
+        linear-gradient(rgba(10,14,22,.55), rgba(10,14,22,.75)),
+        url("https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=1600&auto=format&fit=crop") center/cover no-repeat;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .hero h1{font-size:clamp(2rem,5vw,3rem); margin:0 0 10px}
+    .hero p{color:var(--muted); margin:0}
+
+    .container{width:min(1000px,92%); margin:38px auto 60px}
+
+    /* === Animated Glow Border Card === */
+    .about-wrap{
+      position:relative;
+      border-radius: var(--radius);
+      padding: 2px; /* space for the border reveal */
+      isolation:isolate;
+    }
+    /* rotating border */
+    .about-wrap::before{
+      content:"";
+      position:absolute; inset:-2px; /* tiny bleed for crisp corners */
+      border-radius: inherit;
+      background: conic-gradient(
+        from 0deg,
+        var(--ring1),
+        var(--ring2),
+        var(--ring3),
+        var(--ring4),
+        var(--ring1)
+      );
+      animation: spin 6s linear infinite;
+      /* Show only the border ring */
+      padding: 2px;
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      z-index:-1;
+    }
+    /* soft outer glow */
+    .about-wrap::after{
+      content:"";
+      position:absolute; inset:-14px;
+      border-radius: inherit;
+      background: conic-gradient(
+        from 0deg,
+        var(--ring1),
+        var(--ring2),
+        var(--ring3),
+        var(--ring4),
+        var(--ring1)
+      );
+      filter: blur(24px);
+      opacity:.55;
+      animation: spin 8s linear infinite;
+      z-index:-2;
+    }
+    @keyframes spin{
+      to{ transform: rotate(360deg); }
+    }
+
+    /* inner panel */
+    .about{
+      background: linear-gradient(180deg, rgba(237, 124, 233, 0.02), transparent 30%) , var(--panel);
+      border-radius: calc(var(--radius) - 2px);
+      padding: clamp(22px, 3.4vw, 36px);
+      box-shadow: 0 20px 50px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    .about h2{
+      font-size: clamp(1.4rem, 2.6vw, 2rem);
+      margin: 0 0 12px;
+    }
+    .about p{
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+    .highlight{color:#fff; font-weight:700}
+
+    /* badges for quick highlights */
+    .badges{
+      display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 6px;
+    }
+    .badge{
+      padding:8px 12px; border-radius:999px;
+      background:rgba(125,211,252,.12);
+      border:1px solid rgba(125,211,252,.35);
+      font-size:.9rem;
+      color:#dbeafe;
+      box-shadow: inset 0 0 12px rgba(125,211,252,.15);
+    }
+
+    /* Clubs */
+    .clubs{
+      margin-top: 26px;
+    }
+    .clubs h3{
+      margin: 10px 0 14px;
+      font-size:1.2rem;
+    }
+    .logo-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+      gap:18px;
+    }
+    .logo{
+      display:grid; place-items:center;
+      border-radius: 16px;
+      background: rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      padding:14px;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .logo:hover{
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(0,0,0,.35);
+    }
+    .logo img{
+      width:70px; height:70px; object-fit:contain;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,.3));
+    }
+    .logo span{
+      margin-top:8px; font-size:.9rem; color:var(--muted);
+    }
+
+    footer{
+      text-align:center; padding:24px; color:var(--muted);
+      border-top:1px solid rgba(255,255,255,.06);
+    }
+
+    /* Respect users who prefer less motion */
+    @media (prefers-reduced-motion: reduce){
+      .about-wrap::before, .about-wrap::after{ animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div>
+      <h1>About Us</h1>
+      <p>Latest updates from college clubs & societies — all in one place.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Animated, glowing-edge container -->
+    <section class="about-wrap">
+      <div class="about">
+        <h2>Who We Are</h2>
+        <p>
+          We are a dedicated <span class="highlight">community</span> responsible for publishing regular updates
+          about events and initiatives from different clubs and societies across the campus.
+        </p>
+        <p>
+          From <span class="highlight">NSS</span>, <span class="highlight">Empyrean</span>, <span class="highlight">XTS</span>,
+          and <span class="highlight">Rotaract</span> to many more, this is your central hub to discover what’s happening,
+          what’s next, and how to get involved.
+        </p>
+        <p>
+          Our goal is to keep every student <span class="highlight">informed, engaged, and connected</span> with timely
+          announcements, event highlights, and participation opportunities.
+        </p>
+
+        <div class="badges">
+          <span class="badge">Daily Updates</span>
+          <span class="badge">All Clubs — One Place</span>
+          <span class="badge">Workshops & Competitions</span>
+          <span class="badge">Cultural & Technical Fests</span>
+        </div>
+
+        <p>
+          <strong>Mission:</strong> Build a vibrant information bridge between clubs and students so you never miss a chance
+          to learn, compete, perform, or volunteer.
+        </p>
+        <p>
+          <strong>Vision:</strong> A collaborative campus where ideas, creativity, and leadership thrive beyond classrooms.
+        </p>
+
+        <!-- Logos -->
+        <div class="clubs">
+          <h3 style="text-align: center;">Our Clubs & Societies</h3>
+          <div class="logo-grid">
+            <!-- Replace sources with your official logo files if available -->
+            <div class="logo">
+              <img src="nss.jpg" alt="NSS logo">
+              <span>NSS</span>
+            </div>
+            <div class="logo">
+              <img src="xts.jpg" alt="XTS logo">
+              <span>XTS</span>
+            </div>
+            <div class="logo">
+              <img src="rotract.jpg" alt="Rotaract logo">
+              <span>Rotaract</span>
+            </div>
+            <div class="logo">
+              <img src="empyrean.jpg" alt="Emperan logo">
+              <span>Empyrean</span>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2025 College Clubs Community • All rights reserved</footer>
+</body>
+</html>
