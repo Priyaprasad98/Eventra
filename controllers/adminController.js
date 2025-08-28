@@ -20,37 +20,26 @@ exports.getAdminEventList = async (req, res, next) => {
   try {
     const category = req.query.category || "All";
     const status = req.query.status || "All"; 
-    let filter = {};
 
-    // Category filter
+    // Fetch all events
+    let events = await Event.find().lean();
+
+    
+    // Apply category filter
     if (category !== "All") {
-      filter.category = category;
+      events = events.filter(e => e.category === category);
     }
 
-    // Fetch events
-    let events = await Event.find().lean();  // <-- use 'let' to allow filtering
-    const now = new Date();
-
-    // Apply status filtering
-    if (status === "Upcoming") {
-      events = events.filter(e => new Date(e.startDate) > now);
-    } else if (status === "Ongoing") {
-      events = events.filter(e => {
-        if (e.endDate) {
-          return new Date(e.startDate) <= now && new Date(e.endDate) >= now;
-        } else {
-          return new Date(e.startDate).toDateString() === now.toDateString();
-        }
-      }); 
-    } else if (status === "Past") {
-      events = events.filter(e => {
-        if (e.endDate) {
-          return new Date(e.endDate) < now;
-        } else {
-          return new Date(e.startDate) < now;
-        }
-      });
-    }
+     const today  = new Date();
+const todayStr = today.toISOString().split('T')[0];
+// Apply status filter (date-wise)
+if (status === "Upcoming") {
+  events = events.filter(e => new Date(e.startDate).toISOString().split('T')[0] > todayStr);
+} else if (status === "Ongoing") {
+  events = events.filter(e => new Date(e.startDate).toISOString().split('T')[0] === todayStr);
+} else if (status === "Past") {
+  events = events.filter(e => new Date(e.startDate).toISOString().split('T')[0] < todayStr);
+}
 
     res.render("admin/event-list", {
       pageTitle: "Event-List",
@@ -108,7 +97,9 @@ exports.postAddEvent = async (req, res, next) => {
 
 exports.postDeleteEvent = (req, res, next) => {
   const eventId = req.params.id;
+  console.log(eventId);
   const redirectTo = req.body.redirectTo;
+  console.log(redirectTo);
   Event.findByIdAndDelete(eventId).then(() => {
     res.redirect(redirectTo);
   }).catch(err => console.log(err));
@@ -177,17 +168,12 @@ exports.postEditEvent = (req, res, next) => {
 
 exports.getAdminEventCards = async (req, res, next) => {
   const events = await Event.find().lean();
-  const now = new Date();
+  const today  = new Date();
+const todayStr = today.toISOString().split('T')[0];
 
-  const upcoming = events.filter(e => new Date(e.startDate) > now);
-  const ongoing  = events.filter(e => {
-    if (e.endDate) {
-      return new Date(e.startDate) <= now && new Date(e.endDate) >= now;
-    } else {
-      return new Date(e.startDate).toDateString() === now.toDateString();
-    }
-  });
-  const past = events.filter(e => new Date(e.endDate || e.startDate) < now);
+const upcoming = events.filter(e => e.startDate.toISOString().split('T')[0] > todayStr);
+const ongoing = events.filter(e => e.startDate.toISOString().split('T')[0] == todayStr);
+const past = events.filter(e => e.startDate.toISOString().split('T')[0] < todayStr);
 
   res.render("commonPages/events", { 
     upcoming, ongoing, past,

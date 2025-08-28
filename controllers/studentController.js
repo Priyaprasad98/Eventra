@@ -8,17 +8,12 @@ const formatEventDate = require("../utils/format");
 
 exports.getEvents = async (req, res, next) => {
   const events = await Event.find().lean();
-  const now = new Date();
+  const today  = new Date();
+const todayStr = today.toISOString().split('T')[0];
 
-  const upcoming = events.filter(e => new Date(e.startDate) > now);
-  const ongoing  = events.filter(e => {
-    if (e.endDate) {
-      return new Date(e.startDate) <= now && new Date(e.endDate) >= now;
-    } else {
-      return new Date(e.startDate).toDateString() === now.toDateString();
-    }
-  });
-  const past = events.filter(e => new Date(e.endDate || e.startDate) < now);
+const upcoming = events.filter(e => e.startDate.toISOString().split('T')[0] > todayStr);
+const ongoing = events.filter(e => e.startDate.toISOString().split('T')[0] == todayStr);
+const past = events.filter(e => e.startDate.toISOString().split('T')[0] < todayStr);
 
   res.render("commonPages/events", { 
     upcoming, ongoing, past,
@@ -123,6 +118,7 @@ exports.postRegistrationForm = async (req,res,next) => {
 exports.getFeedback = async (req, res, next) => {
   const eventId = req.params.eventId;
   event = await Event.findById(eventId);
+  console.log(req.query);
   res.render("student/feedback", {
     isLoggedIn: req.session.isLoggedIn,
     user: req.session.user,
@@ -162,7 +158,7 @@ exports.postFeedback = async (req, res, next) => {
         await feedback.save();
         registeredStudent.isFeedbackSubmitted = true;
         await registeredStudent.save();
-        res.redirect(`/events/${eventId}?status=success`);
+        res.redirect(`/events/${eventId}`);
       }
   }
   catch(err) {
