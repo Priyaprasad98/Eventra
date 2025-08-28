@@ -18,10 +18,19 @@
         <%= event.name %>
       </h1>
       <p class="text-lg md:text-xl mb-6 animate-fade-in-delay">Discover and get more from professional events</p>
+      <% if(user && user.userType == 'Student') { %>
+        <% if(new Date(event.startDate).getTime() >= Date.now()) { %>
       <a href="/register/<%= event._id %>" 
          class="hero-btn animate-fade-in-delay-2">
         Register Now
       </a>
+      <% } else { %>
+        <a href="/feedback/<%= event._id %>" 
+         class="hero-btn animate-fade-in-delay-2">
+        Feedback
+      </a>
+      <% } %>
+    <% } %>  
     </div>
   </section>
 
@@ -121,7 +130,7 @@
 <p class="description"><strong>About this event:</strong> <%= event.description %></p>
 
 <div class="m-5">
-        <a href = "/details/<%=event._id%>" class="text-lg text-pink-600">Download House rules </a>
+        <a href = "/details/<%=event._id%>" class="text-lg text-pink-600">Download Event Schedule </a>
 
       </div>
 <!-- Countdown Section -->
