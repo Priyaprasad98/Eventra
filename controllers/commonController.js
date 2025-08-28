@@ -7,14 +7,26 @@ const Feedback = require("../models/feedback");
 const formatEventDate = require("../utils/format");
 const rootDir = require("../utils/pathUtils");
 
-exports.getIndex = (req, res, next) => {
-  res.render("commonPages/landing", {
+exports.getIndex = async (req, res, next) => {
+  const events = await Event.find().sort({ startDate: 1 }).limit(5).lean();
+  res.render("commonPages/index", {
     pageTitle: "Home",
     currentPage: "Home",
+    isLoggedIn: req.isLoggedIn,
+    user: req.session.user,
+    events
+  });
+};
+
+exports.getAboutUs = async (req, res, next) => {
+  res.render("commonPages/aboutUs", {
+    pageTitle: "About Us",
+    currentPage: "About",
     isLoggedIn: req.isLoggedIn,
     user: req.session.user
   });
 };
+
 exports.getEventDetail = async (req, res, next) => {
   const eventId = req.params.eventId;
   const event = await Event.findById(eventId);

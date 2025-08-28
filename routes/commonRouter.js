@@ -8,4 +8,6 @@ commonRouter.get('/events/:eventId', commonController.getEventDetail);
 
 commonRouter.get('/details/:eventId', commonController.downloadDetail);
 
+commonRouter.get('/about', commonController.getAboutUs);
+
 module.exports = commonRouter;
