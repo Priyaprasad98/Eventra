@@ -3,7 +3,7 @@ const adminRouter = express.Router();
 const adminController = require('../controllers/adminController');
  
 adminRouter.use((req,res,next) => {
-  if(req.session.user == 'Admin') {
+  if(req.session.user.userType == 'Admin') {
     next();
   }
   else {
