@@ -88,7 +88,7 @@ body {
 
 /* Hero Section */
 .hero {
-  background: url("hero.png") no-repeat center center;
+  /* background: url("hero.png") no-repeat center center; */
   background-size: cover;
   /* Fills the screen */
   height: 100vh;
@@ -102,9 +102,9 @@ body {
   text-align: center;
   padding: 0 20px;
   color: white;
-  background: url("hero1.png") no-repeat center center/cover;
-  /* animation: bgSlide 15s infinite; */
-  animation: bgSlide 24s infinite;
+  /* background: url("hero1.png") no-repeat center center/cover; */
+   animation: bgSlide 15s infinite; 
+  /* animation: bgSlide 24s infinite; */
 }
 
 @keyframes bgSlide {

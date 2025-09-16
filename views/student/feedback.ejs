@@ -68,7 +68,6 @@
         </div>
       </form>
       <div id="notification" class="mt-4 w-full relative">
-       <h1> <%=query.status%> </h1>
   <% if (query.status === 'already') { %>
     <div class="bg-yellow-100 border-l-4 border-yellow-600 text-yellow-800 px-4 py-3 rounded-lg shadow-md flex items-center space-x-3 opacity-0 translate-y-5 transition-all duration-500 ease-out">
       <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -110,7 +109,7 @@
         toast.classList.remove('opacity-100', 'translate-y-0');
         toast.classList.add('opacity-0', 'translate-y-8');
         setTimeout(() => toast.parentElement.remove(), 500); // Remove from DOM
-      }, 3000);
+      }, 5000);
     }
   </script>
 </body>

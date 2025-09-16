@@ -148,7 +148,7 @@ exports.postSignup = [
 
 exports.postLogin = async (req, res, next) => {
   const {email,password} = req.body;
-  console.log(req.body);
+  //console.log(req.body);
   const  user = await User.findOne({email});
   if(!user) {
     return res.render("auth/login",{
