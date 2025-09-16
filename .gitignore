@@ -2,3 +2,4 @@ node_modules
 uploads/img
 uploads/docs
 .env
+event-storage-service-123456.json
