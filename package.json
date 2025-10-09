@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@google-cloud/storage": "^7.17.1",
     "bcryptjs": "^3.0.2",
     "concurrently": "^9.2.0",
     "connect-mongodb-session": "^5.0.0",
