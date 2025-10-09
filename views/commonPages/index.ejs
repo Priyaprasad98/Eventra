@@ -90,7 +90,7 @@
         <div class="slider">
           <% if(events && events.length > 0) { %>
             <% events.forEach(event => { %>
-              <div class="card"><img src="/uploads/img/<%= event.img %>">
+              <div class="card"><img src="<%= event.img %>">
             <div class="card-body">
               <span class="tag designer"><%=event.category%></span>
               <h3><%=event.name%></h3>
