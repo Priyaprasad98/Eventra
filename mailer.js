@@ -20,7 +20,7 @@ const sendMail = async(to, subject, htmlContent,event) => {
       attachments: [
         {
           filename: event.img,  
-          path: path.join(__dirname,"uploads/img", event.img), // your uploads folder
+          path: event.img, 
           cid: "eventPoster"
         }
        ]

@@ -5,6 +5,7 @@ const fs = require("fs");
 //local module
 const Event = require("../models/events");
 const rootDir = require("../utils/pathUtils");
+const { uploadToGCP } = require("../utils/GCPupload");
 
 exports.getAddEvent = (req, res, next) => {
   res.render("admin/add-event",{
@@ -31,15 +32,15 @@ exports.getAdminEventList = async (req, res, next) => {
     }
 
      const today  = new Date();
-const todayStr = today.toISOString().split('T')[0];
-// Apply status filter (date-wise)
-if (status === "Upcoming") {
-  events = events.filter(e => new Date(e.startDate).toISOString().split('T')[0] > todayStr);
-} else if (status === "Ongoing") {
-  events = events.filter(e => new Date(e.startDate).toISOString().split('T')[0] === todayStr);
-} else if (status === "Past") {
-  events = events.filter(e => new Date(e.startDate).toISOString().split('T')[0] < todayStr);
-}
+     const todayStr = today.toISOString().split('T')[0];
+     // Apply status filter (date-wise)
+     if (status === "Upcoming") {
+       events = events.filter(e => new Date(e.startDate).toISOString().split('T')[0] > todayStr);
+       } else if (status === "Ongoing") {
+       events = events.filter(e => new Date(e.startDate).toISOString().split('T')[0] === todayStr);
+       } else if (status === "Past") {
+       events = events.filter(e => new Date(e.startDate).toISOString().split('T')[0] < todayStr);
+     }
 
     res.render("admin/event-list", {
       pageTitle: "Event-List",
@@ -57,7 +58,6 @@ if (status === "Upcoming") {
 };
 
 
-
 exports.postAddEvent = async (req, res, next) => {
   const {name,description,category,startDate,venue,organizer,organizerContactNumber,maxParticipants,registrationDeadline,fee} = req.body;
   const startDateObj = startDate ? new Date(startDate) : null;
@@ -68,23 +68,24 @@ exports.postAddEvent = async (req, res, next) => {
   } else if(!req.files.docs || !req.files.docs[0]) {
     return res.status(422).send("No docs for rule book provided");
   }
-  const img = req.files.img[0].filename;
-  const docs = req.files.docs[0].filename;
-  const event = new Event({
-    name, 
-    description, 
-    category, 
-    startDate: startDateObj, 
-    venue, 
-    organizer,
-    organizerContactNumber,
-    maxParticipants: maxParticipants ? Number(maxParticipants) : 0,
-    registrationDeadline: registrationDeadlineObj,
-    fee: fee ? Number(fee) : 0,
-    img,
-    docs
-  });
   try {
+    const imgUrl = await uploadToGCP(req.files.img[0], "images");
+    const docsPath = await uploadToGCP(req.files.docs[0], "docs");
+    const event = new Event({
+        name, 
+        description, 
+        category, 
+        startDate: startDateObj, 
+        venue, 
+        organizer,
+        organizerContactNumber,
+        maxParticipants: maxParticipants ? Number(maxParticipants) : 0,
+        registrationDeadline: registrationDeadlineObj,
+        fee: fee ? Number(fee) : 0,
+        img: imgUrl,
+        docs: docsPath
+      });
+      
     await event.save();
       console.log("Event saved successfully!");
       res.redirect("/admin/events");
@@ -134,25 +135,7 @@ exports.postEditEvent = (req, res, next) => {
     event.maxParticipants = maxParticipants;
     event.registrationDeadline = registrationDeadline;
     event.fee = fee;
-     if(req.files.img && req.files.img[0]) {
-    const filePath = path.join(rootDir, 'uploads','img', event.img );
-     fs.unlink(filePath, (err) => {
-        if (err) {
-          console.log("Error while deleting file ", err);
-        }
-      });
-    event.img = req.files.img[0].filename;
-  } 
-
-   if(req.files.docs && req.files.docs[0]) {
-    const filePath = path.join(rootDir, 'uploads','docs', event.docs );
-    fs.unlink(filePath, (err) => {
-      if (err) {
-        console.log("Error while deleting file ", err);
-      }
-    });
-    event.docs = req.files.docs[0].filename;
-  }
+    
   event.save().then(() => {
     console.log("event edited sucessfully");
   })
