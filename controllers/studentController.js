@@ -9,11 +9,11 @@ const formatEventDate = require("../utils/format");
 exports.getEvents = async (req, res, next) => {
   const events = await Event.find().lean();
   const today  = new Date();
-const todayStr = today.toISOString().split('T')[0];
+                    const todayStr = today.toISOString().split('T')[0];
 
-const upcoming = events.filter(e => e.startDate.toISOString().split('T')[0] > todayStr);
-const ongoing = events.filter(e => e.startDate.toISOString().split('T')[0] == todayStr);
-const past = events.filter(e => e.startDate.toISOString().split('T')[0] < todayStr);
+                    const upcoming = events.filter(e => e.startDate.toISOString().split('T')[0] > todayStr);
+                    const ongoing = events.filter(e => e.startDate.toISOString().split('T')[0] == todayStr);
+                    const past = events.filter(e => e.startDate.toISOString().split('T')[0] < todayStr);                
 
   res.render("commonPages/events", { 
     upcoming, ongoing, past,
@@ -48,7 +48,7 @@ exports.getRegistrationForm = async (req, res, next) => {
 };
 
 exports.postRegistrationForm = async (req,res,next) => {
-  console.log(req.body);
+  //console.log(req.body);
   const {studentName, studentEmail, studentPhoneNo, studentDepartment, registeredAt} = req.body;
   const eventId = req.params.eventId;
   try {
@@ -96,7 +96,7 @@ exports.postRegistrationForm = async (req,res,next) => {
           </p>
 
           <p style="margin-top:20px;">
-            For any queries, contact us at <a href="mailto:${process.env.APP_EMAIL}" style="color:#6B46C1;">${process.env.APP_EMAIL}</a>.
+            For any queries, contact us at <a href="mail to:${process.env.APP_EMAIL}" style="color:#6B46C1;">${process.env.APP_EMAIL}</a>.
           </p>
 
           <p style="margin-top:20px; font-size:0.9em; color:#666;">
